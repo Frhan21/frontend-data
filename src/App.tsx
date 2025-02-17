@@ -15,7 +15,7 @@ function App() {
   const [data, setData] = useState<Props[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const rowsPerPage = 5;
 
   const fetchData = async () => {
     try {
