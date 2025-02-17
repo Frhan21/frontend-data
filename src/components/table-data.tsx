@@ -1,5 +1,0 @@
-const TableData = (data: ) => {
-    return (
-
-    )
-}
