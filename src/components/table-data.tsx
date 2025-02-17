@@ -1,0 +1,5 @@
+const TableData = (data: ) => {
+    return (
+
+    )
+}
