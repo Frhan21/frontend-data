@@ -8,7 +8,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 interface Props {
   avg_volt: number;
   concentration: number;
-  timestamps: Date;
+  timestamps: Date; // Ubah dari Date ke string untuk kompatibilitas dengan API
 }
 
 function App() {
@@ -53,6 +53,10 @@ function App() {
     setCurrentPage(pageNumber);
   };
 
+  if (loading) {
+    return <div className="text-center mt-10 text-lg">Loading data...</div>;
+  }
+
   return (
     <>
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center flex-col mt-4">
@@ -70,32 +74,40 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {currentRows.map((item, index) => (
-              <tr key={index}>
-                <td className="px-8 py-6 text-center">
-                  {indexOfFirstRow + index + 1}
-                </td>
-                <td className="px-8 py-6 text-center">
-                  {formatDateTime(item.timestamps)}
-                </td>
-                <td className="px-8 py-6 text-center">Sample ke-{index + 1}</td>
-                <td className="px-8 py-6 text-center">{item.concentration}</td>
-                <td className="px-2 py-1 text-center">
-                  <div className="flex items-center justify-center gap-4">
-                    <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
-                    >
-                      <FaEye />
-                    </button>
-                    <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
-                    >
-                      <FaTrash />
-                    </button>
-                  </div>
+            {data.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="text-center py-4">
+                  Data tidak tersedia
                 </td>
               </tr>
-            ))}
+            ) : (
+              currentRows.map((item, index) => (
+                <tr key={index}>
+                  <td className="px-8 py-6 text-center">
+                    {indexOfFirstRow + index + 1}
+                  </td>
+                  <td className="px-8 py-6 text-center">
+                    {formatDateTime(item.timestamps)}
+                  </td>
+                  <td className="px-8 py-6 text-center">
+                    Sample ke-{index + 1}
+                  </td>
+                  <td className="px-8 py-6 text-center">
+                    {item.concentration}
+                  </td>
+                  <td className="px-2 py-1 text-center">
+                    <div className="flex items-center justify-center gap-4">
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
+                        <FaEye />
+                      </button>
+                      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md">
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
         <div className="flex justify-center mt-4">
